@@ -1,5 +1,37 @@
 *{
   padding: 5px;
   font-size: larger;
-  background-color: rgb(58, 111, 255);
+  background-color: rgb(110, 110, 110);
+  margin: 5px;
+}
+.location{
+  height: 30px;
+  border-radius: 10px;
+  width: 100vw;
+  margin: 5px;
+}
+.weather{
+  width: 100vw;
+  border: 3px solid rgb(143, 143, 143);
+  border-radius: 10px;
+  margin: 5px;
+}
+.forecast{
+  margin: 5px;
+  width: 100vw;
+  border: 3px solid rgb(143, 143, 143);
+  border-radius: 10px;
+}
+.day{
+  margin: 0px;
+  padding: 0px;
+  width: 100vw;
+  border: 3px solid rgb(143, 143, 143);
+  border-radius: 10px;
+}
+.hourlyweather{
+  display:flex;
+  font-size: medium;
+  overflow: scroll;
+  scroll-behavior: smooth;
 }
