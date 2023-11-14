@@ -10,18 +10,18 @@ background: linear-gradient(270deg, rgba(43,210,218,1) 17%, rgba(20,142,238,1) 8
 .location{
   height: 30px;
   border-radius: 10px;
-  width: 100vw;
+  /* width: 100vw; */
   margin: 5px;
 }
 .weather{
-  width: 100vw;
+  /* width: 100vw; */
   border: 3px solid rgb(143, 143, 143);
   border-radius: 10px;
   /* margin: 5px; */
 }
 .forecast{
   /* margin: 5px; */
-  width: 100vw;
+  /* width: 100vw; */
 }
 .day{
   background-image:url("./Magda-Ehlers-clouds.jpg");
@@ -29,7 +29,7 @@ background: linear-gradient(270deg, rgba(43,210,218,1) 17%, rgba(20,142,238,1) 8
   margin-top: 10px;
   margin-bottom:10px;
   padding: 0px;
-  width: 100vw;
+  /* width: 100vw; */
   border-radius: 10px;
 }
 .hour{
