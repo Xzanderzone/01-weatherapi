@@ -17,26 +17,57 @@ weather();
 forecast();
 
 function weather(){
-  fetch(('https://api.weatherapi.com/v1/current.json?key=e42f2703bee5405092192213231311&q='+loadedlocation+'&aqi=no'))
+  fetch(('https://api.weatherapi.com/v1/forecast.json?key=e42f2703bee5405092192213231311&q='+loadedlocation+'&days=10&aqi=no&alerts=no'))
   .then(response => response.json())
   .then(data => {
     let main=document.body.querySelector(".weather");
     main.innerHTML=[];
-    
+    console.log(data);
     let location=document.createElement("div");
     let time=new Date(data.location.localtime);
-    location.textContent=data.location.name+', '+data.location.country+", Today "+daysofweek[time.getDay()]+" "+time.getDate()+" "+months[time.getMonth()];
-    let weather=document.createElement("div");
+    location.textContent=data.location.name+', '+data.location.country+", Today "+daysofweek[time.getDay()]+" "+time.getDate()+" "+months[time.getMonth()]+" "+time.getHours()+":"+time.getMinutes();
+    let weather=document.createElement("p");
     weather.textContent=data.current.condition.text;
+    let weatherimgdiv=document.createElement("div");
+    weatherimgdiv.style.paddingLeft="50px";
+    weatherimgdiv.style.paddingRight="20px";
     let weatherimg=document.createElement("img");
     weatherimg.src=data.current.condition.icon;
     let temperature=document.createElement("div");
-    temperature.textContent=data.current.temp_c+"°C";
+    temperature.style.paddingLeft="10px";
+    temperature.style.paddingRight="10px";
+    let text=document.createElement("p");
+    text.textContent="Temp: "+data.current.temp_c+"°C";
+    let rain=document.createElement("p");
+    let currenthour=time.getHours();
+    let datacurrenthour=data.forecast.forecastday[0].hour[currenthour];
+    rain.textContent="Rain: "+datacurrenthour.chance_of_rain+"%";
+    let wind=document.createElement("p");
+    wind.textContent="Wind: "+data.current.gust_kph+"kph";
+    
+    let extrainfo=document.createElement("div");
+    extrainfo.style.paddingLeft="20px";
+    extrainfo.style.paddingRight="20px";
+    let texti=document.createElement("p");
+    texti.textContent="Feels like: "+datacurrenthour.feelslike_c+"°C";
+    let raini=document.createElement("p");
+    raini.textContent="Humidity: "+datacurrenthour.humidity;
+    let windi=document.createElement("p");
+    console.log(datacurrenthour);
+    windi.textContent="Snow: "+datacurrenthour.chance_of_snow+"%";
     
     main.appendChild(location);
-    main.appendChild(weather);
-    main.appendChild(weatherimg);
+    weatherimgdiv.appendChild(weather);
+    weatherimgdiv.appendChild(weatherimg);
+    main.appendChild(weatherimgdiv);
+    temperature.appendChild(text);
+    temperature.appendChild(rain);
+    temperature.appendChild(wind);
     main.appendChild(temperature);
+    extrainfo.appendChild(texti);
+    extrainfo.appendChild(raini);
+    extrainfo.appendChild(windi);
+    main.appendChild(extrainfo);
     
   })
   .catch(error => {
@@ -47,11 +78,11 @@ function forecast(){
   fetch(('https://api.weatherapi.com/v1/forecast.json?key=e42f2703bee5405092192213231311&q='+loadedlocation+'&days=10&aqi=no&alerts=no'))
   .then(response => response.json())
   .then(data => {
-    console.log(data);
+    // console.log(data);
     let main=document.body.querySelector(".forecast");
     main.innerHTML=[];
     
-    console.log(data.forecast.forecastday[0]);
+    // console.log(data.forecast.forecastday[0]);
     data.forecast.forecastday.forEach(element => {
       let forecastday=document.createElement("div");
       forecastday.classList.add("day");
@@ -71,9 +102,8 @@ function forecast(){
 
       let hourlydiv=document.createElement("div");
       hourlydiv.classList.add("hourlyweather");
-      hourlydiv.style.marginBottom="100px";
       element.hour.forEach(hourly => {
-        console.log(hourly);
+        // console.log(hourly);
         let hour=document.createElement("div");
         hour.classList.add("hour");
         hour.style.minWidth="100px";
