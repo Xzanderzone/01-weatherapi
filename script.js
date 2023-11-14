@@ -20,7 +20,6 @@ function weather(){
   fetch(('https://api.weatherapi.com/v1/current.json?key=e42f2703bee5405092192213231311&q='+loadedlocation+'&aqi=no'))
   .then(response => response.json())
   .then(data => {
-    console.log(data);
     let main=document.body.querySelector(".weather");
     main.innerHTML=[];
     
@@ -56,6 +55,7 @@ function forecast(){
     data.forecast.forecastday.forEach(element => {
       let forecastday=document.createElement("div");
       forecastday.classList.add("day");
+      forecastday.style.backgroundImage="./forecastexample.png";
       const day=new Date(element.date);
       forecastday.textContent=daysofweek[day.getDay()]+" "+day.getDate() +" "+ months[day.getMonth()];
       let weather=document.createElement("div");
@@ -75,16 +75,20 @@ function forecast(){
         console.log(hourly);
         let hour=document.createElement("div");
         hour.classList.add("hour");
+        hour.style.minWidth="100px";
         let hourlyimg=document.createElement("img");
         let condition=document.createElement("p");
         condition.style.marginLeft="5px";
         condition.style.marginRight="5px";
         let temp=document.createElement("p");
         temp.textContent=hourly.temp_c+" °C";
+        let time=document.createElement("p");
+        time.textContent=hourly.time.substring(10,16);
         condition.textContent=hourly.condition.text;
         hourlyimg.src=hourly.condition.icon;
-        hour.appendChild(temp);
         hour.appendChild(hourlyimg);
+        hour.appendChild(time);
+        hour.appendChild(temp);
         hour.appendChild(condition);
         hourlydiv.appendChild(hour);
       });
