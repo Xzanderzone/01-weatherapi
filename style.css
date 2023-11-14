@@ -32,7 +32,11 @@ background: linear-gradient(270deg, rgba(43,210,218,1) 17%, rgba(20,142,238,1) 8
   width: 100vw;
   border-radius: 10px;
 }
+.hour{
+  margin-bottom: 10px;
+}
 .hourlyweather{
+  margin-left: 5px;
   background: none;
   display:flex;
   font-size: medium;

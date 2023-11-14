@@ -71,6 +71,7 @@ function forecast(){
 
       let hourlydiv=document.createElement("div");
       hourlydiv.classList.add("hourlyweather");
+      hourlydiv.style.marginBottom="100px";
       element.hour.forEach(hourly => {
         console.log(hourly);
         let hour=document.createElement("div");
