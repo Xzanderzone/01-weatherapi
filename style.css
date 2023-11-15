@@ -34,7 +34,7 @@ background: linear-gradient(270deg, rgba(43,210,218,1) 17%, rgba(20,142,238,1) 8
   background: none;
   display:flex;
   font-size: medium;
-  overflow: scroll;
+  overflow: auto;
   scroll-behavior: smooth;
 }
 
