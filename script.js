@@ -1,6 +1,8 @@
 // api key e42f2703bee5405092192213231311
+// localStorage previous visit city
+let loadedlocation = localStorage.getItem('loadedlocation'); 
+if(loadedlocation=="null")loadedlocation="aalst belgium";
 let inputlocation=document.querySelector(".location");
-let loadedlocation="aalst belgium";
 const getDayName = (dayType, dateVal = dateObj) => dateVal.toLocaleDateString('en-US', {weekday: dayType})
 const daysofweek=["sunday","monday","tuesday","wednesday","thursday","friday","saturday"];
 const months=["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"];
@@ -8,6 +10,7 @@ const months=["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov",
 inputlocation.addEventListener("keyup",(e)=>{
   if(e.key=="Enter"){
     loadedlocation=inputlocation.value;
+    localStorage.setItem('loadedlocation', inputlocation.value);
     console.log(inputlocation.value);
     weather();
     forecast();
