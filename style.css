@@ -4,13 +4,13 @@
   margin: 0px;
 }
 .chartcontainer{
-  max-height: 300px;  
+  max-height: 400px;  
   overflow: auto;
   scroll-behavior: smooth;
 }
 #myChart{
 overflow: auto;
-min-width: 200vw;
+min-width: 1000px;
 background-color: green;
 }
 main{
