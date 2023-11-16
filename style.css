@@ -3,10 +3,16 @@
   font-size: large;
   margin: 0px;
 }
-/* #myChart{
-max-height: 400px;
-max-width: 800px;
-} */
+.chartcontainer{
+  max-height: 300px;  
+  overflow: auto;
+  scroll-behavior: smooth;
+}
+#myChart{
+overflow: auto;
+min-width: 200vw;
+background-color: green;
+}
 main{
   background: rgb(43,210,218);
 background: linear-gradient(270deg, rgba(43,210,218,1) 17%, rgba(20,142,238,1) 80%);

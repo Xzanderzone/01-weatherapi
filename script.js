@@ -66,6 +66,7 @@ function weather(){
     console.log(datacurrenthour);
     windii.textContent="Snow: "+datacurrenthour.chance_of_snow+"%";
 
+    //chart
     let charthours=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23];
     let chartvalues=[];
     for(let i=0;i<charthours.length;i++)chartvalues.push(data.forecast.forecastday[0].hour[i].temp_c);
@@ -163,15 +164,15 @@ function drawChart(hours,values)
     data: {
       labels: hours,//['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
       datasets: [{
-        label: 'Temperature',
+        label: 'Temperature Today',
         data: values,//[12, 19, 3, 5, 2, 3],
-        borderWidth: 1
+        borderWidth: 2
       }]
     },
     options: {
       scales: {
         y: {
-          beginAtZero: true
+          beginAtZero: false
         }
       }
     }
