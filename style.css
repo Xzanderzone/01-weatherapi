@@ -3,6 +3,10 @@
   font-size: large;
   margin: 0px;
 }
+/* #myChart{
+max-height: 400px;
+max-width: 800px;
+} */
 main{
   background: rgb(43,210,218);
 background: linear-gradient(270deg, rgba(43,210,218,1) 17%, rgba(20,142,238,1) 80%);

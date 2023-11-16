@@ -1,9 +1,8 @@
 // api key e42f2703bee5405092192213231311
 // localStorage previous visit city
 let loadedlocation = localStorage.getItem('loadedlocation'); 
-if(loadedlocation=="null")loadedlocation="aalst belgium";
+if(!loadedlocation)loadedlocation="aalst belgium";
 let inputlocation=document.querySelector(".location");
-const getDayName = (dayType, dateVal = dateObj) => dateVal.toLocaleDateString('en-US', {weekday: dayType})
 const daysofweek=["sunday","monday","tuesday","wednesday","thursday","friday","saturday"];
 const months=["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"];
 
@@ -66,6 +65,11 @@ function weather(){
     let windii=document.createElement("p");
     console.log(datacurrenthour);
     windii.textContent="Snow: "+datacurrenthour.chance_of_snow+"%";
+
+    let charthours=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23];
+    let chartvalues=[];
+    for(let i=0;i<charthours.length;i++)chartvalues.push(data.forecast.forecastday[0].hour[i].temp_c);
+    drawChart(charthours,chartvalues);
     
     main.appendChild(location);
     weatherimgdiv.appendChild(weather);
@@ -148,5 +152,28 @@ function forecast(){
   })
   .catch(error => {
     // Handle the error
+  });
+}
+
+function drawChart(hours,values)
+{
+  const ctx = document.getElementById('myChart');
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: hours,//['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+      datasets: [{
+        label: 'Temperature',
+        data: values,//[12, 19, 3, 5, 2, 3],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
   });
 }

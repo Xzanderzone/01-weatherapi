@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script type="module" src="./script.js" defer></script>
+
   <link rel="stylesheet" href="style.css">
   <title>Amazing-Weather-App</title>
 </head>
@@ -15,11 +16,12 @@
       <input type="location" id="location"class="location"value="aalst" placeholder="Aalst Belgium">
     </label>
     <div class="weather"></div>
+    <div><canvas id="myChart"></canvas></div>
     <div class="forecast"></div>
   </main>
   <footer>
-    <!-- <img src="./forecastexample.png" alt="" width="400px" > -->
     <a href="https://www.weatherapi.com/" title="Free Weather API"><img src='//cdn.weatherapi.com/v4/images/weatherapi_logo.png' alt="Weather data by WeatherAPI.com"></a>
-  </footer>
+  </footer>  
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 </html>
