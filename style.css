@@ -11,13 +11,15 @@
 #myChart{
 overflow: auto;
 min-width: 1000px;
-background-color: green;
+background-color: none;
 }
 main{
   background: rgb(43,210,218);
 background: linear-gradient(270deg, rgba(43,210,218,1) 17%, rgba(20,142,238,1) 80%);
 }
-.location{
+.location,.search{
+  padding-left: 10px;
+  padding-right: 10px;
   height: 30px;
   border-radius: 10px;
   margin: 5px;

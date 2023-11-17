@@ -1,50 +1,80 @@
 // api key e42f2703bee5405092192213231311
 // localStorage previous visit city
 let loadedlocation = localStorage.getItem('loadedlocation'); 
+let loadedweather = localStorage.getItem('loadedweather');
+loadedweather = JSON.parse(loadedweather) 
+console.log(loadedlocation,loadedweather);
 if(!loadedlocation)loadedlocation="aalst belgium";
 let inputlocation=document.querySelector(".location");
 const daysofweek=["sunday","monday","tuesday","wednesday","thursday","friday","saturday"];
 const months=["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"];
-
+let chart;
+console.log(loadedweather);
 inputlocation.addEventListener("keyup",(e)=>{
   if(e.key=="Enter"){
     loadedlocation=inputlocation.value;
     localStorage.setItem('loadedlocation', inputlocation.value);
-    console.log(inputlocation.value);
-    weather();
-    forecast();
+    GetApiData();
+    // weather();
+    // forecast();
   }
 })
+document.querySelector(".search").addEventListener("click",(e)=>{
+    loadedlocation=inputlocation.value;
+    localStorage.setItem('loadedlocation', inputlocation.value);
+    GetApiData();
+})
+
 weather();
 forecast();
 
-function weather(){
-  fetch(('https://api.weatherapi.com/v1/forecast.json?key=e42f2703bee5405092192213231311&q='+loadedlocation+'&days=10&aqi=no&alerts=no'))
+function GetApiData(){
+    fetch(('https://api.weatherapi.com/v1/forecast.json?key=e42f2703bee5405092192213231311&q='+loadedlocation+'&days=10&aqi=no&alerts=no'))
   .then(response => response.json())
   .then(data => {
-    let main=document.body.querySelector(".weather");
-    main.innerHTML=[];
+    loadedweather=data;
     console.log(data);
-    let location=document.createElement("div");
-    location.style.padding="20px";
-    let time=new Date(data.location.localtime);
-    location.textContent=data.location.name+', '+data.location.country+", Today "+daysofweek[time.getDay()]+" "+time.getDate()+" "+months[time.getMonth()]+" "+time.getHours()+":"+time.getMinutes();
+    localStorage.setItem('loadedweather', JSON.stringify(data));//add > use previous data if new one cant load
+    // console.log(loadedweather,data);
+    weather();
+    forecast();
+  })
+  .catch(error => {
+    console.log(error);
+    if(error !=200){
+      let errormsg=document.createElement("h1")
+      errormsg.textContent="failed to load current weather!";
+      document.body.querySelector("header").prepend(errormsg); 
+    } 
+  });
+
+}
+function weather(){
+
+  let main=document.body.querySelector(".weather");
+  main.innerHTML=[];
+  let location=document.createElement("div");
+  location.style.padding="20px";
+   console.log(loadedlocation,loadedweather);
+    
+    let time=new Date(loadedweather.location.localtime);
+    location.textContent=loadedweather.location.name+', '+loadedweather.location.country+", Today "+daysofweek[time.getDay()]+" "+time.getDate()+" "+months[time.getMonth()]+" "+time.getHours()+":"+time.getMinutes();
     let weather=document.createElement("p");
-    weather.textContent=data.current.condition.text;
+    weather.textContent=loadedweather.current.condition.text;
     let weatherimgdiv=document.createElement("div");
     weatherimgdiv.style.padding="20px";
     let weatherimg=document.createElement("img");
-    weatherimg.src=data.current.condition.icon;
+    weatherimg.src=loadedweather.current.condition.icon;
     let temperature=document.createElement("div");
     temperature.style.padding="20px";
     let text=document.createElement("p");
-    text.textContent="Temp: "+data.current.temp_c+"°C";
+    text.textContent="Temp: "+loadedweather.current.temp_c+"°C";
     let rain=document.createElement("p");
     let currenthour=time.getHours();
-    let datacurrenthour=data.forecast.forecastday[0].hour[currenthour];
+    let datacurrenthour=loadedweather.forecast.forecastday[0].hour[currenthour];
     rain.textContent="Rain: "+datacurrenthour.chance_of_rain+"%";
     let wind=document.createElement("p");
-    wind.textContent="Wind: "+data.current.wind_kph+"kph";
+    wind.textContent="Wind: "+loadedweather.current.wind_kph+"kph";
     
     let extrainfo=document.createElement("div");
     extrainfo.style.padding="20px";
@@ -53,7 +83,7 @@ function weather(){
     let raini=document.createElement("p");
     raini.textContent="precip: "+datacurrenthour.precip_mm+"mm";
     let windi=document.createElement("p");
-    console.log(datacurrenthour);
+    // console.log(datacurrenthour);
     windi.textContent="Wind direction: "+datacurrenthour.wind_dir;
     
     let extraextrainfo=document.createElement("div");
@@ -63,13 +93,13 @@ function weather(){
     let rainii=document.createElement("p");
     rainii.textContent="Humidity: "+datacurrenthour.humidity+"%";
     let windii=document.createElement("p");
-    console.log(datacurrenthour);
+    // console.log(datacurrenthour);
     windii.textContent="Snow: "+datacurrenthour.chance_of_snow+"%";
 
     //chart
     let charthours=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23];
     let chartvalues=[];
-    for(let i=0;i<charthours.length;i++)chartvalues.push(data.forecast.forecastday[0].hour[i].temp_c);
+    for(let i=0;i<charthours.length;i++)chartvalues.push(loadedweather.forecast.forecastday[0].hour[i].temp_c);
     drawChart(charthours,chartvalues);
     
     main.appendChild(location);
@@ -92,18 +122,14 @@ function weather(){
     extraextrainfo.appendChild(windii);
     main.appendChild(extraextrainfo);
     
-  })
-  .catch(error => {
-    // Handle the error
-  });
 }
 function forecast(){
-  fetch(('https://api.weatherapi.com/v1/forecast.json?key=e42f2703bee5405092192213231311&q='+loadedlocation+'&days=10&aqi=no&alerts=no'))
-  .then(response => response.json())
-  .then(data => {
+  // fetch(('https://api.weatherapi.com/v1/forecast.json?key=e42f2703bee5405092192213231311&q='+loadedlocation+'&days=10&aqi=no&alerts=no'))
+  // .then(response => response.json())
+  // .then(loadedweather => {
     let main=document.body.querySelector(".forecast");
     main.innerHTML=[];
-    data.forecast.forecastday.forEach(element => {
+    loadedweather.forecast.forecastday.forEach(element => {
       let forecastday=document.createElement("div");
       forecastday.classList.add("day");
       forecastday.style.padding="20px";
@@ -118,7 +144,7 @@ function forecast(){
       weatherimg.style.float="left";
       weatherimg.style.height="100%";
       let temperature=document.createElement("p");
-      temperature.textContent=element.day.daily_chance_of_rain+" %  "+data.current.temp_c+" °C ";
+      temperature.textContent=element.day.daily_chance_of_rain+" %  "+loadedweather.current.temp_c+" °C ";
 
       let hourlydiv=document.createElement("div");
       hourlydiv.classList.add("hourlyweather");
@@ -150,31 +176,56 @@ function forecast(){
       main.appendChild(forecastday);
     });
     
-  })
-  .catch(error => {
-    // Handle the error
-  });
+  // })
+  // .catch(error => {
+  //   // Handle the error
+  // });
 }
 
 function drawChart(hours,values)
 {
-  const ctx = document.getElementById('myChart');
-  new Chart(ctx, {
+  const canvas = document.getElementById("myChart");
+  const ctx = canvas.getContext("2d");
+  if(chart)chart.destroy();
+  chart=new Chart(ctx, {
     type: 'line',
     data: {
-      labels: hours,//['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+      labels: hours,
       datasets: [{
         label: 'Temperature Today',
-        data: values,//[12, 19, 3, 5, 2, 3],
+        borderColor:'red',
+        color:'red',
+        data: values,
         borderWidth: 2
       }]
     },
+    defaults:{
+      color:"red  "
+    },
     options: {
-      scales: {
-        y: {
-          beginAtZero: false
+      legend: {
+        labels: {
+            fontColor: "yellow",
+            fontSize: 50
         }
+    },
+    color:"red",
+    scales: {
+      y:{
+        beginAtZero: true,
+        ticks: {
+          color: 'red', // Change the color of the y-axis labels
+          fontSize : 40,
+        },
+      },
+      x: {
+        ticks: {
+          color: 'red', // Change the color of the y-axis labels
+          fontSize : 40,
+        },
       }
+  }
     }
   });
+  console.log(chart.defaults);
 }
