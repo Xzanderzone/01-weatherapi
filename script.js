@@ -131,10 +131,8 @@ function weather(){
 }
 
 function forecast(){
-  // fetch(('https://api.weatherapi.com/v1/forecast.json?key=e42f2703bee5405092192213231311&q='+loadedlocation+'&days=10&aqi=no&alerts=no'))
-  // .then(response => response.json())
-  // .then(loadedweather => {
-    let main=document.body.querySelector(".forecast");
+  let main=document.body.querySelector(".forecast");
+  let tabcount=0;
     main.innerHTML=[];
     loadedweather.forecast.forecastday.forEach(element => {
       let forecastday=document.createElement("div");
@@ -155,6 +153,8 @@ function forecast(){
 
       let hourlydiv=document.createElement("div");
       hourlydiv.classList.add("hourlyweather");
+      hourlydiv.tabIndex=tabcount;
+      // tabcount++;
       element.hour.forEach(hourly => {
         let hour=document.createElement("div");
         hour.classList.add("hour");
