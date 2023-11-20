@@ -1,4 +1,4 @@
-import {Keys} from "./config.js"  
+// import {Keys} from "./config.js"  
 
 let loadedlocation = localStorage.getItem('loadedlocation'); 
 let loadedweather = localStorage.getItem('loadedweather');
@@ -33,7 +33,6 @@ async function GetImageApi(){
  fetch(`https://api.unsplash.com/search/photos?query=${loadedlocation}&client_id=${Keys.Image}`)
   .then(response => response.json())
   .then(data => {
-    console.log(data.results);
     document.querySelector("main").style.backgroundImage=`url(${data.results[5].urls.raw}&w=1000&dpr=2)`;
   })
 }
@@ -89,7 +88,6 @@ function weather(){
   let raini=document.createElement("p");
   raini.textContent="precip: "+datacurrenthour.precip_mm+"mm";
   let windi=document.createElement("p");
-  // console.log(datacurrenthour);
   windi.textContent="Wind direction: "+datacurrenthour.wind_dir;
   
   let extraextrainfo=document.createElement("div");
@@ -99,7 +97,6 @@ function weather(){
   let rainii=document.createElement("p");
   rainii.textContent="Humidity: "+datacurrenthour.humidity+"%";
   let windii=document.createElement("p");
-  // console.log(datacurrenthour);
   windii.textContent="Snow: "+datacurrenthour.chance_of_snow+"%";
 
   //chart
@@ -131,7 +128,6 @@ function weather(){
 
 function forecast(){
   let main=document.body.querySelector(".forecast");
-  let tabcount=0;
     main.innerHTML=[];
     loadedweather.forecast.forecastday.forEach(element => {
       let forecastday=document.createElement("div");
@@ -152,8 +148,7 @@ function forecast(){
 
       let hourlydiv=document.createElement("div");
       hourlydiv.classList.add("hourlyweather");
-      hourlydiv.tabIndex=tabcount;
-      // tabcount++; 
+      hourlydiv.tabIndex=0;
       element.hour.forEach(hourly => {
         let hour=document.createElement("div");
         hour.classList.add("hour");
@@ -180,10 +175,6 @@ function forecast(){
       forecastday.appendChild(hourlydiv);
       main.appendChild(forecastday);
     });
-  // })
-  // .catch(error => {
-  //   // Handle the error
-  // });
 }
 
 function drawChart(hours,values)
