@@ -1,5 +1,5 @@
-import {ImageKey, WeatherKey} from "./config.js"  
-// localStorage previous visit city
+import {Keys} from "./config.js"  
+
 let loadedlocation = localStorage.getItem('loadedlocation'); 
 let loadedweather = localStorage.getItem('loadedweather');
 loadedweather = JSON.parse(loadedweather);
@@ -30,21 +30,20 @@ weather();
 forecast();
 
 async function GetImageApi(){
- fetch(`https://api.unsplash.com/search/photos?query=${loadedlocation}&client_id=${ImageKey.key}`)
- .then(response => response.json())
- .then(data => {
-  // console.log(loadedlocation);
-  console.log(data.results);
-  document.querySelector("main").style.backgroundImage=`url(${data.results[5].urls.raw}&w=1000&dpr=2)`;
-})
+ fetch(`https://api.unsplash.com/search/photos?query=${loadedlocation}&client_id=${Keys.Image}`)
+  .then(response => response.json())
+  .then(data => {
+    console.log(data.results);
+    document.querySelector("main").style.backgroundImage=`url(${data.results[5].urls.raw}&w=1000&dpr=2)`;
+  })
 }
 
 function GetWeatherApi(){
-    fetch((`https://api.weatherapi.com/v1/forecast.json?key=${WeatherKey.key} &q=`+loadedlocation+'&days=14&aqi=no&alerts=no'))
+    fetch((`https://api.weatherapi.com/v1/forecast.json?key=${Keys.Weather} &q=`+loadedlocation+'&days=14&aqi=no&alerts=no'))
   .then(response => response.json())
   .then(data => {
     loadedweather=data;
-    localStorage.setItem('loadedweather', JSON.stringify(data));//add > use previous data if new one cant load
+    localStorage.setItem('loadedweather', JSON.stringify(data));
     errormsg.textContent="";
     document.body.querySelector("header").prepend(errormsg); 
     weather();
@@ -57,8 +56,8 @@ function GetWeatherApi(){
       document.body.querySelector("header").prepend(errormsg); 
     } 
   });
-
 }
+
 function weather(){
 
   let main=document.body.querySelector(".weather");
