@@ -57,7 +57,6 @@ function GetWeatherApi(){
     } 
   });
 }
-
 function weather(){
 
   let main=document.body.querySelector(".weather");
