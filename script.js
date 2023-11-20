@@ -1,3 +1,4 @@
+import {ImageKey, WeatherKey} from "./config.js"  
 // localStorage previous visit city
 let loadedlocation = localStorage.getItem('loadedlocation'); 
 let loadedweather = localStorage.getItem('loadedweather');
@@ -29,7 +30,7 @@ weather();
 forecast();
 
 async function GetImageApi(){
- fetch(`https://api.unsplash.com/search/photos?query=${loadedlocation}&client_id=JF1bdAUipsoXUPLcdHgbOjtSQM8S7FcTctwBo1ZcilI`)
+ fetch(`https://api.unsplash.com/search/photos?query=${loadedlocation}&client_id=${ImageKey.key}`)
  .then(response => response.json())
  .then(data => {
   // console.log(loadedlocation);
@@ -39,7 +40,7 @@ async function GetImageApi(){
 }
 
 function GetWeatherApi(){
-    fetch(('https://api.weatherapi.com/v1/forecast.json?key=e42f2703bee5405092192213231311&q='+loadedlocation+'&days=14&aqi=no&alerts=no'))
+    fetch((`https://api.weatherapi.com/v1/forecast.json?key=${WeatherKey.key} &q=`+loadedlocation+'&days=14&aqi=no&alerts=no'))
   .then(response => response.json())
   .then(data => {
     loadedweather=data;
@@ -154,7 +155,7 @@ function forecast(){
       let hourlydiv=document.createElement("div");
       hourlydiv.classList.add("hourlyweather");
       hourlydiv.tabIndex=tabcount;
-      // tabcount++;
+      // tabcount++; 
       element.hour.forEach(hourly => {
         let hour=document.createElement("div");
         hour.classList.add("hour");
